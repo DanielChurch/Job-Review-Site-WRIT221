@@ -9,7 +9,7 @@ class Shell extends Component {
     super(props);
 
     firebase.auth().onAuthStateChanged(user => {
-      this.setState({user: user});
+      this.setState({ user: user });
     });
   }
 
@@ -19,7 +19,7 @@ class Shell extends Component {
     return [
       <NavBar user={this.state.user}></NavBar>,
       <div style = {{padding: '1rem'}}>
-        {this.props.children}
+        { this.props.children }
       </div>
     ];
   }

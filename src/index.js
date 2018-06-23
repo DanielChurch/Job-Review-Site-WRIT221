@@ -7,18 +7,14 @@ import * as firebase from 'firebase';
 import {
   BrowserRouter as Router,
   Route,
-  Link
 } from 'react-router-dom';
 
-import Login from './login';
-import Salaries from './salaries';
+import Salaries from './salaries/salaries';
 import Overview from './overview';
 import Reviews from './reviews';
 import Questions from './questions';
 import Photos from './photos';
 import Shell from './shell';
-
-import './index.css';
 
 function main() {
   const config = {
@@ -34,7 +30,7 @@ function main() {
   ReactDOM.render((
     <Router>
       <Shell>
-        <Route exact path='/' component={Salaries} />
+        <Route exact path='/' component={Overview} />
         <Route path='/overview' component={Overview} />
         <Route path='/salaries' component={Salaries} />
         <Route path='/reviews' component={Reviews} />

@@ -7,7 +7,6 @@ import {
   Link,
   NavLink,
 } from 'react-router-dom';
-import Salaries, { SalariesShell } from './salaries';
 
 import { Icon, Button } from './components/components';
 
