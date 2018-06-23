@@ -31,94 +31,7 @@ const defaultState = {
   companyText: "",
   jobTitle: "",
   modal: null,
-  companyInfo: {
-    name: "Company Name",
-    location: "Location",
-    description: "Company Description",
-    salary: {
-      average: 0,
-      high: 0,
-      low: 0,
-      median: 0
-    },
-    positions: [
-      {
-        title: "Senior Awesome Person",
-        salary: "$120,000,000",
-        payout: "????????????",
-        stockOptions: "????????????",
-        benefits: "????????????",
-        pto: "????????????"
-      },
-      {
-        title: "Software Engineer",
-        salary: "$90,000",
-        payout: "????????????",
-        stockOptions: "????????????",
-        benefits: "????????????",
-        pto: "????????????"
-      },
-      {
-        title: "Information Technology",
-        salary: "$55,000",
-        payout: "????????????",
-        stockOptions: "????????????",
-        benefits: "????????????",
-        pto: "????????????"
-      },
-      {
-        title: "Software Engineering Intern",
-        salary: "$40,000",
-        payout: "????????????",
-        stockOptions: "????????????",
-        benefits: "????????????",
-        pto: "????????????"
-      },
-      {
-        title: "Janitor",
-        salary: "$5",
-        payout: "????????????",
-        stockOptions: "????????????",
-        benefits: "????????????",
-        pto: "????????????"
-      }
-    ],
-    reviews: [
-      {
-        content:
-          "This place sucks. Don't waste your time. They don't even have a pool table.",
-        user: "Dan",
-        likes: "512",
-        time: "2",
-        icon: '',
-        email: '',
-      },
-      {
-        content: "This place is the best!!!! Company_Name_Here 4 life!!!",
-        user: "Nathan",
-        likes: "511",
-        time: "13",
-        icon: '',
-        email: '',
-      },
-      {
-        content: "Review 3.",
-        user: "Sarah",
-        likes: "510",
-        time: "34",
-        icon: '',
-        email: '',
-      },
-      {
-        content: "Review 4.",
-        user: "Megan",
-        likes: "509",
-        time: "50",
-        icon: '',
-        email: '',
-      }
-    ]
-  }
+  companyInfo: null,
 };
 
 class Salaries extends Component {
@@ -365,24 +278,49 @@ class Salaries extends Component {
   }
 
   render() {
-    return (
-      <Columns>
-        <Column size="is-8">
-          <Box>
-            <div className="title">Salaries</div>
-          </Box>
-          <Box>
-            <div className="has-text-centered">{this.renderLogo()}</div>
-            <hr />
-            <p> {this.state.companyInfo.description} </p>
-          </Box>
-          {this.renderSearchBoxes()}
-          {this.renderCompanyPositions()}
-        </Column>
-        <Column>{this.renderCompanyInfo()}</Column>
-        {this.state.modal}
-      </Columns>
-    );
+    console.log(this.state.companyInfo);
+    if (this.state.companyInfo != null) {
+      return (
+        <Columns>
+          <Column size="is-8">
+            <Box>
+              <div className="title">Salaries</div>
+            </Box>
+            <Box>
+              <div className="has-text-centered">{this.renderLogo()}</div>
+              <hr />
+              <p> {this.state.companyInfo.description} </p>
+            </Box>
+            {this.renderSearchBoxes()}
+            {this.renderCompanyPositions()}
+          </Column>
+          <Column>{this.renderCompanyInfo()}</Column>
+          {this.state.modal}
+        </Columns>
+      );
+    } else {
+      return (
+        <div>
+          <Columns>
+            <Column size="is-8">
+              <Box>
+                <div className="title">Salaries</div>
+              </Box>
+            </Column>
+            <Column></Column>
+          </Columns>
+          <div style={{ height: '30vh' }}></div>
+          <Columns>
+            <Column size='is-2'></Column>
+            <Column size='is-8'>
+              {this.renderSearchBoxes()}
+            </Column>
+            <Column size='is-2'></Column>
+          </Columns>
+          {this.state.modal}
+        </div>
+      );
+    }
   }
 }
 
