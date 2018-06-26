@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Column extends Component {
   render() {
@@ -9,5 +10,9 @@ class Column extends Component {
     );
   }
 }
+
+Column.propTypes = {
+  size: PropTypes.string
+};
 
 export default Column;

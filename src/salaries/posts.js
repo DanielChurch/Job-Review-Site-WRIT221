@@ -1,22 +1,13 @@
-import React, { Component, createRef } from 'react'
-import PropTypes from 'prop-types'
-
-import * as firebase from 'firebase';
+import React, { Component, createRef } from 'react';
+import PropTypes from 'prop-types';
 
 import { Box, Button } from '../components/components';
 
+import * as firebase from 'firebase';
+
 class Post extends Component {
-  static propTypes = {
-    user: PropTypes.element,
-    time: PropTypes.element,
-
-    likes: PropTypes.number,
-
-    icon: PropTypes.string,
-  };
-
   calculateTimeDiff() {
-    var diffMs = (Date.now() - this.props.time);
+    var diffMs = Date.now() - this.props.time;
     var diffDays = Math.floor(diffMs / 86400000);
     var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
     var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
@@ -32,31 +23,35 @@ class Post extends Component {
 
   render() {
     return (
-      <article class="post">
+      <article className="post">
         <h4> {this.props.children} </h4>
-        <div class="media">
-          <div class="media-left">
-            <p class="image is-32x32">
-              <img src={(() => {
-                console.log(this.props.icon);
-                if (this.props.icon != 'null') {
-                  return this.props.icon;
-                } else {
-                  return "http://bulma.io/images/placeholders/128x128.png";
-                }
-              })()}/>
+        <div className="media">
+          <div className="media-left">
+            <p className="image is-32x32">
+              <img
+                src={(() => {
+                  if (this.props.icon != 'null') {
+                    return this.props.icon;
+                  } else {
+                    return 'http://bulma.io/images/placeholders/128x128.png';
+                  }
+                })()}
+              />
             </p>
           </div>
-          <div class="media-content">
-            <div class="content">
+          <div className="media-content">
+            <div className="content">
               <p>
-                <a href="#">{this.props.user}</a> reviewed { this.calculateTimeDiff() } ago &nbsp;
-                <span class="tag is-info">Review</span>
+                <a href="#">{this.props.user}</a> reviewed{' '}
+                {this.calculateTimeDiff()} ago &nbsp;
+                <span className="tag is-info">Review</span>
               </p>
             </div>
           </div>
-          <div class="media-right">
-            <span class="has-text-success"><i class="fas fa-thumbs-up"></i> {this.props.likes} </span>
+          <div className="media-right">
+            <span className="has-text-success">
+              <i className="fas fa-thumbs-up" /> {this.props.likes}{' '}
+            </span>
           </div>
         </div>
       </article>
@@ -64,17 +59,22 @@ class Post extends Component {
   }
 }
 
-class Posts extends Component {
-  static propTypes = {
-    reviews: PropTypes.array,
-  };
+Post.propTypes = {
+  user: PropTypes.element,
+  time: PropTypes.element,
 
+  likes: PropTypes.number,
+
+  icon: PropTypes.string
+};
+
+class Posts extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       reviewText: '',
-      user: null,
+      user: null
     };
 
     firebase.auth().onAuthStateChanged(user => {
@@ -86,18 +86,20 @@ class Posts extends Component {
 
   renderPosts() {
     if (this.props.reviews && this.props.reviews.length != 0) {
-      return (
-        this.props.reviews.map(review => {
-          return (
-            <Post
-              user={ review.user }
-              icon={ review.icon }
-              likes={ review.likes }
-              time={ review.time }
-            > { review.content } </Post>
-          );
-        })
-      );
+      return this.props.reviews.map(review => {
+        return (
+          <Post
+            icon={review.icon}
+            key={review}
+            likes={review.likes}
+            time={review.time}
+            user={review.user}
+          >
+            {' '}
+            {review.content}{' '}
+          </Post>
+        );
+      });
     } else {
       return <div> There are currently no reviews. Be the first! </div>;
     }
@@ -108,10 +110,9 @@ class Posts extends Component {
       <textarea
         className="textarea"
         placeholder="Leave a review!"
-        onChange={(event) => this.setState({ reviewText: event.target.value })}
-        ref={ (ref) => this.inputRef = ref }
-      >
-      </textarea>
+        onChange={event => this.setState({ reviewText: event.target.value })}
+        ref={ref => (this.inputRef = ref)}
+      />
     );
   }
 
@@ -120,9 +121,19 @@ class Posts extends Component {
       const user = this.state.user;
 
       if (user) {
-        this.props.onSubmitReview(this.state.reviewText, user.displayName, user.photoURL, user.email);
+        this.props.onSubmitReview(
+          this.state.reviewText,
+          user.displayName,
+          user.photoURL,
+          user.email
+        );
       } else {
-        this.props.onSubmitReview(this.state.reviewText, 'Anonymous', null, null);
+        this.props.onSubmitReview(
+          this.state.reviewText,
+          'Anonymous',
+          null,
+          null
+        );
       }
     }
 
@@ -131,13 +142,18 @@ class Posts extends Component {
 
   render() {
     return (
-      <Box className='content'>
-        { this.renderPosts() }
-        { this.renderInput() }
-        <Button onClick={ () => this.submitReview() }> Submit </Button>
+      <Box className="content">
+        {this.renderPosts()}
+        {this.renderInput()}
+        <Button onClick={() => this.submitReview()}> Submit </Button>
       </Box>
     );
   }
 }
+
+Posts.propTypes = {
+  reviews: PropTypes.array,
+  onSubmitReview: PropTypes.func
+};
 
 export default Posts;

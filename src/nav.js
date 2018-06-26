@@ -1,48 +1,61 @@
-import React, { Component } from 'react'
-import Nav, { NavItem, NavDropdown, NavDropdownItem } from './components/nav.js';
-import * as firebase from 'firebase';
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  NavLink,
-} from 'react-router-dom';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-import { Icon, Button } from './components/components';
+import Nav, {
+  NavItem,
+  NavDropdown,
+  NavDropdownItem
+} from './components/nav.js';
+import * as firebase from 'firebase';
+import { NavLink } from 'react-router-dom';
+
+import { Button } from './components/components';
 
 class NavBar extends Component {
   constructor(props) {
     super(props);
-    
+
     this.tabs = {
-      'Overview': 'overview',
-      'Salaries': 'salaries',
-      'Reviews': 'reviews',
-      'Questions': 'questions',
-      'Photos': 'photos',
+      Overview: 'overview',
+      Salaries: 'salaries',
+      Reviews: 'reviews',
+      Questions: 'questions',
+      Photos: 'photos'
     };
 
-    this.state = {user: this.props.user};
+    this.state = { user: this.props.user };
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({user: nextProps.user})
+  componentDidUpdate(_, lastState) {
+    if (
+      lastState.user &&
+      this.props.user &&
+      lastState.user.displayName === this.props.user.displayName
+    )
+      return;
+
+    this.setState({ user: this.props.user });
   }
 
   renderUserInfo() {
     if (this.state.user) {
       return (
         <div>
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link">
-              <img src={this.state.user.photoURL}/>
+          <div className="navbar-item has-dropdown is-hoverable">
+            <a className="navbar-link">
+              <img src={this.state.user.photoURL} />
               {/* <Icon glyph='fas fa-user'/> */}
             </a>
             <NavDropdown isRight={true}>
-              <NavDropdownItem onClick={e => {
-                firebase.auth().signOut();
-                this.setState({user: null});
-              }}> Sign out </NavDropdownItem>
+              <NavDropdownItem
+                onClick={() => {
+                  firebase.auth().signOut();
+                  this.setState({ user: null });
+                }}
+              >
+                {' '}
+                Sign out{' '}
+              </NavDropdownItem>
             </NavDropdown>
           </div>
         </div>
@@ -51,13 +64,19 @@ class NavBar extends Component {
 
     return (
       <Button
-        type='is-primary'
-        onClick={e => {
-          firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(result => {
-            this.setState({user: result.user});
-          });
+        type="is-primary"
+        onClick={() => {
+          firebase
+            .auth()
+            .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+            .then(result => {
+              this.setState({ user: result.user });
+            });
         }}
-      > Log in </Button>
+      >
+        {' '}
+        Log in{' '}
+      </Button>
     );
   }
 
@@ -65,10 +84,8 @@ class NavBar extends Component {
     return (
       <NavItem>
         <NavItem> Contact Us </NavItem>
-        <div class="field is-grouped">
-          <p class="control">
-            {this.renderUserInfo()}
-          </p>
+        <div className="field is-grouped">
+          <p className="control">{this.renderUserInfo()}</p>
         </div>
       </NavItem>
     );
@@ -77,26 +94,36 @@ class NavBar extends Component {
   renderNav() {
     return (
       <Nav endContent={this.renderEndNavContent()}>
-          {Object.keys(this.tabs).map(item => {
-            return (
-              <NavItem>
-                <NavLink to={this.tabs[item]} style={{ textDecoration: 'none', color: 'black' }}>
-                  <NavItem style={{ padding: '0px 0px 0px 0px', margin: '0px 0px 0px 0px' }}>
-                    {item}
-                  </NavItem>
-                </NavLink>
-              </NavItem>
-            );
-          })}
+        {Object.keys(this.tabs).map(item => {
+          return (
+            <NavItem key={item}>
+              <NavLink
+                to={this.tabs[item]}
+                style={{ textDecoration: 'none', color: 'black' }}
+              >
+                <NavItem
+                  style={{
+                    padding: '0px 0px 0px 0px',
+                    margin: '0px 0px 0px 0px'
+                  }}
+                >
+                  {item}
+                </NavItem>
+              </NavLink>
+            </NavItem>
+          );
+        })}
       </Nav>
     );
   }
 
   render() {
-    return (
-     this.renderNav() 
-    );
+    return this.renderNav();
   }
 }
+
+NavBar.propTypes = {
+  user: PropTypes.object
+};
 
 export default NavBar;

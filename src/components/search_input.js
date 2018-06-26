@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class SearchInput extends Component {
   constructor(props) {
@@ -6,7 +7,7 @@ class SearchInput extends Component {
 
     this.state = {
       filter: props.filterText || '',
-      shouldShowFilter: false,
+      shouldShowFilter: false
     };
   }
 
@@ -19,39 +20,54 @@ class SearchInput extends Component {
   }
 
   resetValue() {
-    this.setState({filter: ''});
+    this.setState({ filter: '' });
   }
 
   renderItems() {
     if (this.props.items) {
       return this.props.items
-        .filter(item => item.toLowerCase().startsWith(this.state.filter.toLowerCase()) && this.state.filter.length != 0)
-        .map((item) => <div onClick={() => this.setValue(item)}> {item} </div> );
+        .filter(
+          item =>
+            item.toLowerCase().startsWith(this.state.filter.toLowerCase()) &&
+            this.state.filter.length != 0
+        )
+        .map(item => (
+          <div key={item} onClick={() => this.setValue(item)}>
+            {' '}
+            {item}{' '}
+          </div>
+        ));
     } else {
-      return <div></div>;
+      return <div />;
     }
   }
 
   render() {
     return (
-      <div onBlur={ (_) => setTimeout(() => this.setState({ shouldShowFilter: false }), 200) } >
+      <div
+        onBlur={() =>
+          setTimeout(() => this.setState({ shouldShowFilter: false }), 200)
+        }
+      >
         <input
-          class="input"
           {...this.props}
-          onChange={ (event) => {
-            this.setValue(event.target.value);
-          }}
-          onFocus={ (event) => this.setState({ shouldShowFilter: true }) }
+          className="input"
+          onChange={event => this.setValue(event.target.value)}
+          onFocus={() => this.setState({ shouldShowFilter: true })}
           value={this.state.filter}
         />
-        {this.state.shouldShowFilter
-        ? <div className='autocomplete-items'>
-            { this.renderItems() }
-          </div>
-        : null}
+        {this.state.shouldShowFilter ? (
+          <div className="autocomplete-items">{this.renderItems()}</div>
+        ) : null}
       </div>
     );
   }
 }
+
+SearchInput.propTypes = {
+  filterText: PropTypes.string,
+  items: PropTypes.array,
+  onChange: PropTypes.func
+};
 
 export default SearchInput;

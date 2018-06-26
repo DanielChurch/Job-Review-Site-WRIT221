@@ -1,45 +1,40 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class CompanyStatBox extends Component {
-  static propTypes = {
-    name: PropTypes.string,
-    salary: PropTypes.object,
-  };
-
-  render () {
+  render() {
     return (
       <div>
-        <div className='title has-text-centered'> {this.props.name} </div>
-        <div class="is-ancestor has-text-centered">
-          <div class="tile is-parent">
-            <article class="tile is-child box">
-              <section class="info-tiles">
-                <div class="tile is-ancestor has-text-centered">
-                  <div class="tile is-parent">
-                    <article class="tile is-child box">
-                      <p class="title">${this.props.salary.average}k</p>
-                      <p class="subtitle">National Average</p>
+        <div className="title has-text-centered"> {this.props.name} </div>
+        <div className="is-ancestor has-text-centered">
+          <div className="tile is-parent">
+            <article className="tile is-child box">
+              <section className="info-tiles">
+                <div className="tile is-ancestor has-text-centered">
+                  <div className="tile is-parent">
+                    <article className="tile is-child box">
+                      <p className="title">${this.props.salary.average}k</p>
+                      <p className="subtitle">National Average</p>
                     </article>
                   </div>
-                  <div class="tile is-parent">
-                    <article class="tile is-child box">
-                      <p class="title">${this.props.salary.median}k</p>
-                      <p class="subtitle">National Median</p>
+                  <div className="tile is-parent">
+                    <article className="tile is-child box">
+                      <p className="title">${this.props.salary.median}k</p>
+                      <p className="subtitle">National Median</p>
                     </article>
                   </div>
                 </div>
-                <div class="tile is-ancestor has-text-centered">
-                  <div class="tile is-parent">
-                    <article class="tile is-child box">
-                      <p class="title">${this.props.salary.low}</p>
-                      <p class="subtitle">National Minimum</p>
+                <div className="tile is-ancestor has-text-centered">
+                  <div className="tile is-parent">
+                    <article className="tile is-child box">
+                      <p className="title">${this.props.salary.low}</p>
+                      <p className="subtitle">National Minimum</p>
                     </article>
                   </div>
-                  <div class="tile is-parent">
-                    <article class="tile is-child box">
-                      <p class="title">${this.props.salary.high}k</p>
-                      <p class="subtitle">National Maximum</p>
+                  <div className="tile is-parent">
+                    <article className="tile is-child box">
+                      <p className="title">${this.props.salary.high}k</p>
+                      <p className="subtitle">National Maximum</p>
                     </article>
                   </div>
                 </div>
@@ -51,5 +46,10 @@ class CompanyStatBox extends Component {
     );
   }
 }
+
+CompanyStatBox.propTypes = {
+  name: PropTypes.string,
+  salary: PropTypes.object
+};
 
 export default CompanyStatBox;

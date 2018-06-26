@@ -5,13 +5,12 @@ class Reviews extends Component {
   render() {
     return (
       <Columns>
-        <Column size='is-8'>
+        <Column size="is-8">
           <Box>
-            <div className='title'>Reviews</div>
+            <div className="title">Reviews</div>
           </Box>
         </Column>
-        <Column>
-        </Column>
+        <Column />
       </Columns>
     );
   }

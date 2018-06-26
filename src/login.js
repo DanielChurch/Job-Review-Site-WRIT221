@@ -16,7 +16,7 @@ class Login extends Component {
               <p className="subtitle has-text-grey">Please login to proceed.</p>
               <div className="box">
                 <figure className="avatar">
-                  <img src="https://placehold.it/128x128"/>
+                  <img src="https://placehold.it/128x128" />
                 </figure>
                 <form>
                   <div className="field">
@@ -25,8 +25,10 @@ class Login extends Component {
                         className="input is-large"
                         type="email"
                         placeholder="Your Email"
-                        autofocus=""
-                        onChange={(event) => this.setState({username: event.target.value})}
+                        autoFocus=""
+                        onChange={event =>
+                          this.setState({ username: event.target.value })
+                        }
                         value={this.state.username}
                       />
                     </div>
@@ -37,20 +39,22 @@ class Login extends Component {
                         className="input is-large"
                         type="password"
                         placeholder="Your Password"
-                        onChange={(event) => this.setState({password: event.target.value})}
+                        onChange={event =>
+                          this.setState({ password: event.target.value })
+                        }
                         value={this.state.password}
                       />
                     </div>
                   </div>
                   <div className="field">
                     <label className="checkbox">
-                      <input type="checkbox"/>
+                      <input type="checkbox" />
                       Remember me
                     </label>
                   </div>
-                  <button
-                    className="button is-block is-info is-large is-fullwidth"
-                  >Login</button>
+                  <button className="button is-block is-info is-large is-fullwidth">
+                    Login
+                  </button>
                 </form>
               </div>
               <p className="has-text-grey">

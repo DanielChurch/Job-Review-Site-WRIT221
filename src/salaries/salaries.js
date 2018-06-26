@@ -1,4 +1,4 @@
-import React, { Component, createRef } from "react";
+import React, { Component, createRef } from 'react';
 
 import {
   Box,
@@ -8,11 +8,11 @@ import {
   Icon,
   Modal,
   SearchInput
-} from "../components/components";
+} from '../components/components';
 
-import CompanyStatBox from "./company_stat_box";
-import Posts from "./posts";
-import Positions from "./positions";
+import CompanyStatBox from './company_stat_box';
+import Posts from './posts';
+import Positions from './positions';
 
 import {
   getCompanyInfoFromJobTitle,
@@ -21,17 +21,17 @@ import {
   getCompanyList,
   getJobPositions,
   getLocationList,
-  saveReview,
-} from "../server";
+  saveReview
+} from '../server';
 
-import "./salaries.css";
+import './salaries.css';
 
 const defaultState = {
   companies: [],
-  companyText: "",
-  jobTitle: "",
+  companyText: '',
+  jobTitle: '',
   modal: null,
-  companyInfo: null,
+  companyInfo: null
 };
 
 class Salaries extends Component {
@@ -56,7 +56,9 @@ class Salaries extends Component {
     });
   }
 
-  closeModal = () => this.setState({ modal: null });
+  closeModal() {
+    this.setState({ modal: null });
+  }
 
   async openModal(result, title) {
     if (result.length === 1) {
@@ -68,6 +70,7 @@ class Salaries extends Component {
       const renderItems = () => {
         return result.map(item => (
           <tr
+            key={item}
             onClick={async () => {
               let info = await getCompanyInformation(item.name, item.location);
 
@@ -92,7 +95,7 @@ class Salaries extends Component {
           >
             <table
               className="table is-striped is-hoverable"
-              style={{ margin: "auto" }}
+              style={{ margin: 'auto' }}
             >
               <thead>
                 <tr>
@@ -111,8 +114,8 @@ class Salaries extends Component {
   renderSearchByJobTitleBox() {
     return (
       <Box>
-        <div class="field">
-          <p class="control has-icons-left has-icons-right">
+        <div className="field">
+          <p className="control has-icons-left has-icons-right">
             <SearchInput
               items={this.state.jobTitles}
               placeholder="Search for Job Position"
@@ -124,7 +127,7 @@ class Salaries extends Component {
           </p>
         </div>
         <Button
-          style={{ width: "100%" }}
+          style={{ width: '100%' }}
           onClick={async () => {
             let result = await getCompanyInfoFromJobTitle(this.state.jobTitle);
 
@@ -148,8 +151,8 @@ class Salaries extends Component {
   renderSearchByCompanyBox() {
     return (
       <Box>
-        <div class="field">
-          <p class="control has-icons-left has-icons-right">
+        <div className="field">
+          <p className="control has-icons-left has-icons-right">
             <SearchInput
               items={this.state.companies}
               placeholder="Search for Company"
@@ -161,7 +164,7 @@ class Salaries extends Component {
           </p>
         </div>
         <Button
-          style={{ width: "100%" }}
+          style={{ width: '100%' }}
           onClick={async () => {
             let result = await getCompanyInformation(this.state.companyText);
 
@@ -185,8 +188,8 @@ class Salaries extends Component {
   renderSearchByLocationBox() {
     return (
       <Box>
-        <div class="field">
-          <p class="control has-icons-left has-icons-right">
+        <div className="field">
+          <p className="control has-icons-left has-icons-right">
             <SearchInput
               items={this.state.locations}
               placeholder="Search by location"
@@ -202,7 +205,7 @@ class Salaries extends Component {
           </p>
         </div>
         <Button
-          style={{ width: "100%" }}
+          style={{ width: '100%' }}
           onClick={async () => {
             let result = await getCompanyInformationFromLocation(
               this.state.companyLocation
@@ -235,22 +238,33 @@ class Salaries extends Component {
     );
   }
 
-  renderCompanyPositions = () => (
-    <Positions positions={this.state.companyInfo.positions} />
-  );
+  renderCompanyPositions() {
+    return <Positions positions={this.state.companyInfo.positions} />;
+  }
 
   async saveReview(text, name, icon, email) {
     try {
-      await saveReview(this.state.companyInfo.name, this.state.companyInfo.location, text, name, Date.now(), 0, icon, email);
+      await saveReview(
+        this.state.companyInfo.name,
+        this.state.companyInfo.location,
+        text,
+        name,
+        Date.now(),
+        0,
+        icon,
+        email
+      );
     } catch (e) {}
 
-    let info = await getCompanyInformation(this.state.companyInfo.name, this.state.companyInfo.location);
+    let info = await getCompanyInformation(
+      this.state.companyInfo.name,
+      this.state.companyInfo.location
+    );
 
     this.setState({ companyInfo: info });
   }
 
   renderCompanyInfo() {
-    console.log(this.state.companyInfo.reviews);
     return (
       <Box>
         <CompanyStatBox
@@ -259,7 +273,9 @@ class Salaries extends Component {
         />
         <Posts
           reviews={this.state.companyInfo.reviews}
-          onSubmitReview={ (text, name, icon, email) => this.saveReview(text, name, icon, email) }
+          onSubmitReview={(text, name, icon, email) =>
+            this.saveReview(text, name, icon, email)
+          }
         />
       </Box>
     );
@@ -268,17 +284,16 @@ class Salaries extends Component {
   renderLogo() {
     if (this.state.companyInfo.logo) {
       return (
-        <img style={{ height: "163px" }} src={this.state.companyInfo.logo} />
+        <img style={{ height: '163px' }} src={this.state.companyInfo.logo} />
       );
     } else {
       return (
-        <img style={{ height: "163px" }} src={require("../msu_logo.png")} />
+        <img style={{ height: '163px' }} src={require('../msu_logo.png')} />
       );
     }
   }
 
   render() {
-    console.log(this.state.companyInfo);
     if (this.state.companyInfo != null) {
       return (
         <Columns>
@@ -307,15 +322,13 @@ class Salaries extends Component {
                 <div className="title">Salaries</div>
               </Box>
             </Column>
-            <Column></Column>
+            <Column />
           </Columns>
-          <div style={{ height: '30vh' }}></div>
+          <div style={{ height: '30vh' }} />
           <Columns>
-            <Column size='is-2'></Column>
-            <Column size='is-8'>
-              {this.renderSearchBoxes()}
-            </Column>
-            <Column size='is-2'></Column>
+            <Column size="is-2" />
+            <Column size="is-8">{this.renderSearchBoxes()}</Column>
+            <Column size="is-2" />
           </Columns>
           {this.state.modal}
         </div>
